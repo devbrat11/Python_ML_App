@@ -5,7 +5,7 @@ app = Flask(__name__)
 
 
 @app.route("/")                
-def analysis(): 
+def status(): 
     return "App is running..."  
 
 
