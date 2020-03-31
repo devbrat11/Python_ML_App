@@ -1,31 +1,20 @@
 
 from flask import Flask, jsonify
-app = Flask(__name__)             # create an app instance
+from DataAnalyzer import TestAnalyzer
+app = Flask(__name__)            
 
-tasks = [
-    {
-        'id': 1,
-        'title': u'Buy groceries',
-        'description': u'Milk, Cheese, Pizza, Fruit, Tylenol', 
-        'done': False
-    },
-    {
-        'id': 2,
-        'title': u'Learn Python',
-        'description': u'Need to find a good Python tutorial on the web', 
-        'done': False
-    }
-]
 
 @app.route("/")                
-def hello():                     
-    return "Hello World!"  
+def analysis(): 
+    return "App is running..."  
 
 
-@app.route('/tasks', methods=['GET'])                  
-def get_tasks():
-    return jsonify({'tasks': tasks}) 
+@app.route('/analyze', methods=['GET'])                  
+def analysis():
+    testAnalyzer = TestAnalyzer()
+    result = testAnalyzer.Analysis()                    
+    return result   
 
                                    
 if __name__ == "__main__":        # on running python app.py
-    app.run()                     # run the flask app
+    app.run(debug=True)                     # run the flask app
