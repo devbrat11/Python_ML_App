@@ -1,7 +1,7 @@
 
-from flask import Flask, jsonify
+from flask import Flask,request, jsonify
 from DataAnalyzer import TestAnalyzer
-import pandas as pd
+
 app = Flask(__name__)            
 
 
@@ -9,18 +9,24 @@ app = Flask(__name__)
 def status(): 
     return "App is running..."  
 
-@app.route('/test')
-def getData():
-    data=pd.read_csv("HearCareHealthData.csv")
-    x = data.to_json()
-    return x
-
 
 @app.route('/analyze', methods=['GET'])                  
 def analysis():
     testAnalyzer = TestAnalyzer()
     result = testAnalyzer.Analysis()                    
     return result   
+
+
+@app.route('/ml', methods=['POST'])                  
+def predict():
+    testAnalyzer = TestAnalyzer()
+    request_data = request.get_json(force=True)
+   
+    result = testAnalyzer.predict(request_data['HeartRate'],request_data['Noise'])                    
+    return jsonify(result)   
+
+
+   
 
                                    
 if __name__ == "__main__":        # on running python app.py
