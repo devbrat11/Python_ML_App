@@ -11,7 +11,9 @@ def status():
 
 @app.route('/test')
 def getData():
-    return "test"
+    data=pd.read_csv("HearCareHealthData.csv")
+    x = data.to_json()
+    return x
 
 
 @app.route('/analyze', methods=['GET'])                  
