@@ -1,12 +1,19 @@
 
 from flask import Flask, jsonify
 from DataAnalyzer import TestAnalyzer
+import pandas as pd
 app = Flask(__name__)            
 
 
 @app.route("/")                
 def status(): 
     return "App is running..."  
+
+@app.route('/test')
+def getData():
+    data=pd.read_csv("HearCareHealthData.csv")
+    x = data.to_json()
+    return x
 
 
 @app.route('/analyze', methods=['GET'])                  
