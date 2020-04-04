@@ -1,24 +1,20 @@
 import pandas as pd
-from sklearn.model_selection import train_test_split
-from sklearn.metrics import classification_report,confusion_matrix,accuracy_score
-##For logistic Regression
-from sklearn.linear_model import LogisticRegression
-from sklearn.metrics import classification_report,confusion_matrix,accuracy_score
+import numpy as np
+from sklearn import datasets
+import matplotlib.pyplot as plt
 
-class TestAnalyzer:
+from sklearn.neighbors import KNeighborsClassifier
 
-    def predict(self,heartrate,noise):
-        data=pd.read_csv("HearCareHealthData.csv")
-        inputColumns=data.loc[:,['HeartRate', 'Noise']]
-        outputColumn=data.loc[:,['Target']]
-        x_train,x_test,y_train,y_test=train_test_split(inputColumns,outputColumn,test_size=0.2,random_state=123)
-        model=LogisticRegression()
-        model.fit(x_train,y_train)
+iris = datasets.load_iris()
 
-        exp=[heartrate,noise]
-        prediction = model.predict([exp])
-        output = prediction[0]
-        return output.item()
+x = iris.data
+y = iris.target
+f = iris.feature_names
 
-    def Analysis(self):
-        return "Analysis VAlue"  
+df = pd.DataFrame(x,columns=f)
+
+knn  = KNeighborsClassifier(n_neighbors=6)
+knn.fit(iris['data'],iris['target'])
+print(knn)
+        
+
