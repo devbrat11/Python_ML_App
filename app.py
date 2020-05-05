@@ -1,32 +1,19 @@
 
 from flask import Flask,request, jsonify
-from DataAnalyzer import TestAnalyzer
+from DataAnalyzer import MlAnalyser
 
 app = Flask(__name__)            
 
+mlAnalyzer = MlAnalyser()
 
 @app.route("/")                
 def status(): 
-    return "App is running..."  
-
+    return "ML App is running..."  
 
 @app.route('/analyze', methods=['GET'])                  
 def analysis():
-    testAnalyzer = TestAnalyzer()
-    result = testAnalyzer.Analysis()                    
+    result = mlAnalyzer.Analysis()                    
     return result   
-
-
-@app.route('/ml', methods=['POST'])                  
-def predict():
-    testAnalyzer = TestAnalyzer()
-    request_data = request.get_json(force=True)
-   
-    result = testAnalyzer.predict(request_data['HeartRate'],request_data['Noise'])                    
-    return jsonify(result)   
-
-
-   
 
                                    
 if __name__ == "__main__":        # on running python app.py
