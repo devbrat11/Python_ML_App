@@ -1,18 +1,28 @@
 
 from flask import Flask,request, jsonify
-from DataAnalyzer import MlAnalyser
+from DataAnalyzer import MlModel
 
 app = Flask(__name__)            
 
-mlAnalyzer = MlAnalyser()
+mlAnalyzer = MlModel()
 
 @app.route("/")                
 def status(): 
     return "ML App is running..."  
 
-@app.route('/analyze', methods=['GET'])                  
+@app.route('/data', methods=['GET'])                  
+def getData():
+    data = mlAnalyzer.getData()
+    return jsonify(data)
+
+@app.route('/model', methods=['GET'])                  
+def createMlModel():
+    modelDetails = mlAnalyzer.createModel()                    
+    return jsonify(modelDetails)   
+    
+@app.route('/predict', methods=['GET'])                  
 def analysis():
-    result = mlAnalyzer.Analysis()                    
+    result = mlAnalyzer.predict()                    
     return result   
 
                                    
