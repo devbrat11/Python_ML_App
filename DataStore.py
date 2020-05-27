@@ -1,13 +1,14 @@
-from azure.storage.blob import BlockBlobService
+from azure.storage.blob import BlobServiceClient
 
 class BlobDataReader:
-    STORAGEACCOUNTNAME= 'mlappdata'
-    STORAGEACCOUNTKEY= "LiE9PRgvx0vl6HPkK9Kapw1lG71Ge7Gvi/gULY3bqk+v7jqO6E+Xjg/oOOA+eArGWYD4TWhN9p0I8qGlvNPY6Q=="
-    LOCALFILENAME= 'datasets/heart.csv'        
-    CONTAINERNAME= 'datasets'
-    BLOBNAME= 'heart.csv'
+    CONNECTIONSTRING = 'DefaultEndpointsProtocol=https;AccountName=mlappdata;AccountKey=LiE9PRgvx0vl6HPkK9Kapw1lG71Ge7Gvi/gULY3bqk+v7jqO6E+Xjg/oOOA+eArGWYD4TWhN9p0I8qGlvNPY6Q==;EndpointSuffix=core.windows.net'
+    DEST_FILE = 'Test.csv'
+    CONTAINERNAME = 'datasets'
+    FILENAME = 'heart.csv'
 
     def readData(self):
-        blob_service = BlockBlobService(account_name=self.STORAGEACCOUNTNAME, account_key=self.STORAGEACCOUNTKEY)
-        blobstring = blob_service.get_blob_to_text(self.CONTAINERNAME,self.BLOBNAME).content
-        return blobstring
+        blob_service_client = BlobServiceClient.from_connection_string(self.CONNECTIONSTRING)
+        container_client = blob_service_client.get_container_client(self.CONTAINERNAME)
+        download_stream = container_client.download_blob(self.FILENAME)
+        data = download_stream.readall()
+        return data

@@ -17,8 +17,8 @@ class MlModel:
         return data
 
     def createModel(self):
-        dataSet = self.dataReader.readData()
-        data = pd.read_csv(StringIO(dataSet))
+        blobData = self.dataReader.readData()
+        data=pd.read_csv(StringIO(blobData.decode("utf-8")))
         X = data.iloc[:,:-1].values
         y = data.iloc[:, -1].values
         x_train,x_test,y_train,y_test=train_test_split(X,y,test_size=0.2,random_state=123)
@@ -28,11 +28,6 @@ class MlModel:
 
         return "Ml model of "+str(type(self.knn))+" is created."
 
-    def predict(self):
-        #model = pickle.load(open('KNN_6.pkl','rb'))
-        prediction = model.predict([exp])
-        output = prediction[0]
-        return output.item()
         
         
 
